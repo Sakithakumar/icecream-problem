@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<link rel="stylesheet" href="ice.css"/>
+<body>
+    <div class="ice">
+        <h1>Ice Cream Inventory Management</h1>
+        <div class="list">
+            <ul id="in"></ul>
+        </div>
+        <div class="cream">
+            <button id="add" onclick="addIceCream()">Add New Ice Cream</button>
+            <button id="update" onclick="updateIceCream()">Update Ice Cream Flavor</button>
+            <button id="calculate" onclick="calculateTotalValue()">Calculate Total Value</button>
+        </div>
+        <div class="op">
+            <p id="total"></p>
+        </div>
+    </div>
+</body>
+<script>
+    let inventory = [];
+    function addIceCream() {
+        let flavor = prompt("Enter ice cream flavor:");
+        let price = parseFloat(prompt("Enter ice cream price:"));
+        let quantity = parseInt(prompt("Enter ice cream quantity:"));
+        let newIceCream = {
+            flavor: flavor,
+            price: price,
+            quantity: quantity
+        };
+        inventory.push(newIceCream);
+        console.log(`Added ${flavor}`);
+        updateInventoryList();
+    }
+
+    function updateIceCream() {
+        let flavor = prompt("Enter ice cream flavor to update:");
+        let newQuantity = parseInt(prompt("Enter new quantity:"));
+        let price = parseInt(prompt("enter the price"));
+        for (let iceCream of inventory) {
+            if (iceCream.flavor === flavor) {
+                iceCream.quantity = newQuantity;
+                iceCream.price = price;
+                console.log(`Updated ${flavor} ice cream quantity to ${newQuantity}.`);
+                updateInventoryList();
+                return;
+            }
+        }
+        console.log(`${flavor} ice cream not found in inventory.`);
+    }
+
+    function calculateTotalValue() {
+        let totalValue = 0;
+        for (let iceCream of inventory) {
+            totalValue += iceCream.price * iceCream.quantity;
+        }
+        document.getElementById("total").innerHTML = `Total value of ice cream in inventory: ₹${totalValue.toFixed(2)}`;
+    }
+
+    function updateInventoryList() {
+        let list = document.getElementById("in");
+        list.innerHTML = "";
+        for (let iceCream of inventory) {
+            let listItem = document.createElement("li");
+            listItem.textContent = `${iceCream.flavor} =${iceCream.price} x ${iceCream.quantity}`;
+            list.appendChild(listItem);
+        }
+    }
+</script>
+</html>
